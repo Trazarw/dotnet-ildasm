@@ -95,7 +95,6 @@ namespace DotNet.Ildasm
                 _outputWriter.WriteLine($".custom instance {ctorFullName} = ( { ExtractValueInHex(customAttribute) } )");
             }
            
-
             _outputWriter.WriteLine($".hash algorithm 0x{assembly.Name.HashAlgorithm.ToString("X")}");
             _outputWriter.WriteLine(
                 $".ver {assembly.Name.Version.Major}:{assembly.Name.Version.Minor}:{assembly.Name.Version.Revision}:{assembly.Name.Version.Build}");
