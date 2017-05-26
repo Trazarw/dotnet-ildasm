@@ -88,8 +88,13 @@ namespace DotNet.Ildasm
                 //TODO: Add custom attributes parameter values #4
                 //TODO: Signature to use IL types #2
                 //TODO: External Types should always be preceded by their assembly names #6
-                _outputWriter.WriteLine($".custom instance {customAttribute.Constructor.ToString()} = ( { ExtractValueInHex(customAttribute) } )");
+
+                string assemblyName = ($"[{Type.GetType(customAttribute.AttributeType.FullName).AssemblyQualifiedName.Split(',')[1].Trim()}]");
+                string ctorArguments = string.Join(",", customAttribute.Constructor.Parameters.ToList().Select(x => x.ParameterType.FullName));
+                string ctorFullName = $"{ customAttribute.Constructor.ReturnType } { assemblyName }{ customAttribute.Constructor.DeclaringType.FullName}::{ customAttribute.Constructor.Name }({ ctorArguments })";
+                _outputWriter.WriteLine($".custom instance {ctorFullName} = ( { ExtractValueInHex(customAttribute) } )");
             }
+           
 
             _outputWriter.WriteLine($".hash algorithm 0x{assembly.Name.HashAlgorithm.ToString("X")}");
             _outputWriter.WriteLine(
